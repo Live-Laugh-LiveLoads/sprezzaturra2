@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#FF121212</color>
+    <color name="launcher_background">#FF1B1F3B</color>
+    <color name="launcher_foreground">#FFFFB74D</color>
+</resources>

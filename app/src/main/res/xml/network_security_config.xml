@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cleartext HTTP is allowed so a local Ollama server on the LAN (http://192.168.x.x:11434/v1) works.
+     Cloud providers are all HTTPS; the app never sends keys to an http:// URL you did not enter. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
