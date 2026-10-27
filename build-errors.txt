@@ -1,0 +1,12 @@
+170:e: file:///home/runner/work/sprezzaturra2/sprezzaturra2/app/src/main/java/com/ideaforge/ui/session/StageEditScreen.kt:86:9 Platform declaration clash: The following declarations have the same JVM signature (setText(Ljava/lang/String;)V):
+173:e: file:///home/runner/work/sprezzaturra2/sprezzaturra2/app/src/main/java/com/ideaforge/ui/session/StageEditScreen.kt:109:5 Platform declaration clash: The following declarations have the same JVM signature (setText(Ljava/lang/String;)V):
+187:> Task :app:compileDebugKotlin FAILED
+248:* What went wrong:
+258:* Exception is:
+259:org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileDebugKotlin'.
+268:	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+291:Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+397:	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+420:Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+421:	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
+453:BUILD FAILED in 3m 48s
