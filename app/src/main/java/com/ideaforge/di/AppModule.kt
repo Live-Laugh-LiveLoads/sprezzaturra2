@@ -26,6 +26,7 @@ import com.ideaforge.notify.Notifier
 import com.ideaforge.prompts.AssetPromptStore
 import com.ideaforge.providers.ProviderFactory
 import com.ideaforge.settings.SettingsRepository
+import com.ideaforge.whisper.WhisperModelManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -57,6 +58,10 @@ object AppModule {
         .readTimeout(300, TimeUnit.SECONDS)
         .retryOnConnectionFailure(true)
         .build()
+
+    @Provides @Singleton
+    fun whisperModels(@ApplicationContext context: Context, client: OkHttpClient): WhisperModelManager =
+        WhisperModelManager(context, client)
 
     @Provides @Named("sessionsDir")
     fun sessionsDir(@ApplicationContext context: Context): File = File(context.filesDir, "sessions").apply { mkdirs() }
