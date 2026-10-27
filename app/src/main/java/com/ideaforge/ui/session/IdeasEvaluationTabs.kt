@@ -126,13 +126,13 @@ internal fun EvaluationTab(vm: SessionViewModel) {
 }
 
 private val CRITERIA_LABELS: List<Pair<String, (CriteriaScores) -> Int>> = listOf(
-    "Impact" to { it.impact },
-    "Feasibility" to { it.feasibility },
-    "Effort" to { it.effort },
-    "Cost" to { it.cost },
-    "Risk" to { it.risk },
-    "Time to first result" to { it.timeToFirstResult },
-    "Fit" to { it.fit },
+    "Impact" to { s: CriteriaScores -> s.impact },
+    "Feasibility" to { s: CriteriaScores -> s.feasibility },
+    "Effort" to { s: CriteriaScores -> s.effort },
+    "Cost" to { s: CriteriaScores -> s.cost },
+    "Risk" to { s: CriteriaScores -> s.risk },
+    "Time to first result" to { s: CriteriaScores -> s.timeToFirstResult },
+    "Fit" to { s: CriteriaScores -> s.fit },
 )
 
 @Composable

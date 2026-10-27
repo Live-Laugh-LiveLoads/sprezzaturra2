@@ -25,6 +25,7 @@ import com.ideaforge.notify.Notifier
 import com.ideaforge.settings.SettingsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -93,6 +94,8 @@ private suspend fun CoroutineWorker.tryForeground(notifier: Notifier, title: Str
     }
     try {
         setForeground(info)
+    } catch (e: CancellationException) {
+        throw e
     } catch (e: Exception) {
         Log.i("Work", "Running without foreground: ${e.javaClass.simpleName}")
     }

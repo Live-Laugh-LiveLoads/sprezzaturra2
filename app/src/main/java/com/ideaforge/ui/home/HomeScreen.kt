@@ -347,6 +347,7 @@ private fun RecordButton(label: String, icon: androidx.compose.ui.graphics.vecto
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ActiveRecordingBanner(isMeeting: Boolean, elapsedMs: Long, paused: Boolean, onClick: () -> Unit) {
     Card(
@@ -391,6 +392,7 @@ private fun SpendLine(spend: SpendInfo) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SessionCard(row: SessionRow, onClick: () -> Unit) {
     val session = row.session

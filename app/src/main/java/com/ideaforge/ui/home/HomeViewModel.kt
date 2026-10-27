@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
     val recorder: StateFlow<RecorderUiState> = recordingController.state
 
     val sessions: StateFlow<List<SessionRow>?> = combine(
-        db.sessions().observeRecent(),
+        db.sessions().observeRecent(RECENT_LIMIT),
         db.stages().observeAll(),
     ) { sessions, stages ->
         val bySession = stages.groupBy { it.sessionId }
@@ -70,8 +70,8 @@ class HomeViewModel @Inject constructor(
     val spend: StateFlow<SpendInfo> = combine(
         db.usage().observeCostSince(RoomUsageLedger.monthStart(System.currentTimeMillis())),
         settings.settings,
-    ) { spent, s -> SpendInfo(spent, s.monthlyCapUsd) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SpendInfo(0.0, settings.current.monthlyCapUsd))
+    ) { spent, s -> SpendInfo(spent, s.cost.monthlyCapUsd) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SpendInfo(0.0, settings.current.cost.monthlyCapUsd))
 
     private val _busy = MutableStateFlow(false)
 
@@ -121,5 +121,6 @@ class HomeViewModel @Inject constructor(
 
     private companion object {
         const val KEY_BATTERY_OFFERED = "battery_exemption_offered"
+        const val RECENT_LIMIT = 100
     }
 }

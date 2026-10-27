@@ -264,7 +264,7 @@ class ChunkedAacRecorder(
             return r
         } catch (e: RuntimeException) {
             Log.w(TAG, "AudioRecord open failed for source $source", e)
-            try { r?.release() } catch (_: RuntimeException) { }
+            try { r?.release() } catch (ignored: RuntimeException) { }
             return null
         }
     }
@@ -273,8 +273,8 @@ class ChunkedAacRecorder(
         val r = record ?: return
         record = null
         audioSessionId = 0
-        try { r.stop() } catch (_: RuntimeException) { }
-        try { r.release() } catch (_: RuntimeException) { }
+        try { r.stop() } catch (ignored: RuntimeException) { }
+        try { r.release() } catch (ignored: RuntimeException) { }
     }
 
     companion object {

@@ -110,7 +110,7 @@ fun SessionScreen(
             when (event) {
                 is SessionEvent.Message -> scope.launch { snackbar.showSnackbar(event.text) }
                 is SessionEvent.Share -> try {
-                    context.startActivity(Intent.createChooser(event.intent, "Share session"))
+                    context.startActivity(event.intent)
                 } catch (e: ActivityNotFoundException) {
                     scope.launch { snackbar.showSnackbar("No app can handle this file") }
                 }
@@ -306,6 +306,7 @@ private fun chipLabel(record: StageRunEntity): String {
 }
 
 /** One chip per stage run, coloured by status; tapping opens details. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PipelineStrip(stages: List<StageRunEntity>, onClick: (StageRunEntity) -> Unit) {
     if (stages.isEmpty()) return

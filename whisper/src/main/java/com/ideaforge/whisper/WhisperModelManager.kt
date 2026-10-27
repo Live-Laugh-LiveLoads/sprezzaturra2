@@ -69,8 +69,9 @@ class WhisperModelManager(
             val target = modelFile(name)
             val part = File(dir, target.name + ".part")
             val call = client.newCall(Request.Builder().url(info.url).build())
-            // Cancelling the coroutine cancels the blocking read below, which then throws IOException.
-            val handle = currentCoroutineContext()[Job]?.invokeOnCompletion(onCancelling = true) { call.cancel() }
+            // The loop below checks ensureActive() between reads; the completion handler also cancels the
+            // HTTP call so a stalled connection is torn down once the coroutine has been cancelled.
+            val handle = currentCoroutineContext()[Job]?.invokeOnCompletion { cause -> if (cause != null) call.cancel() }
             try {
                 call.execute().use { response ->
                     if (!response.isSuccessful) throw IOException("Download failed: HTTP ${response.code}")

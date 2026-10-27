@@ -71,11 +71,11 @@ object AdtsRemuxer {
             tmp.delete()
             throw IOException("Remux of ${src.name} failed: ${e.message}", e)
         } finally {
-            try { extractor.release() } catch (_: RuntimeException) { }
+            try { extractor.release() } catch (ignored: RuntimeException) { }
             try {
                 if (started) muxer?.stop()
-            } catch (_: RuntimeException) { }
-            try { muxer?.release() } catch (_: RuntimeException) { }
+            } catch (ignored: RuntimeException) { }
+            try { muxer?.release() } catch (ignored: RuntimeException) { }
         }
         dst.delete()
         if (!tmp.renameTo(dst)) {
@@ -112,7 +112,7 @@ object AdtsRemuxer {
         } catch (e: RuntimeException) {
             0L
         } finally {
-            try { r.release() } catch (_: RuntimeException) { }
+            try { r.release() } catch (ignored: RuntimeException) { }
         }
     }
 
@@ -127,7 +127,7 @@ object AdtsRemuxer {
         } catch (ex: Exception) {
             0L
         } finally {
-            try { e.release() } catch (_: RuntimeException) { }
+            try { e.release() } catch (ignored: RuntimeException) { }
         }
     }
 }

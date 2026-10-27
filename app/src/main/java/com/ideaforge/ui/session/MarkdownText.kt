@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
  * and `inline code`. Anything else is shown as plain text, never dropped.
  */
 
-internal sealed interface MdBlock {
+sealed interface MdBlock {
     data class Heading(val level: Int, val text: String) : MdBlock
     data class Bullet(val indent: Int, val marker: String, val text: String) : MdBlock
     data class Task(val indent: Int, val checked: Boolean, val text: String) : MdBlock

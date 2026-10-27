@@ -202,8 +202,8 @@ class AacChunkEncoder(
     private fun releaseCodec() {
         val c = codec ?: return
         codec = null
-        try { c.stop() } catch (_: RuntimeException) { }
-        try { c.release() } catch (_: RuntimeException) { }
+        try { c.stop() } catch (ignored: RuntimeException) { }
+        try { c.release() } catch (ignored: RuntimeException) { }
     }
 
     @Throws(IOException::class)
@@ -216,15 +216,15 @@ class AacChunkEncoder(
         fileStream = null
         try {
             o?.flush()
-            try { f?.fd?.sync() } catch (_: IOException) { }
+            try { f?.fd?.sync() } catch (ignored: IOException) { }
         } finally {
-            try { o?.close() } catch (_: IOException) { }
-            try { f?.close() } catch (_: IOException) { }
+            try { o?.close() } catch (ignored: IOException) { }
+            try { f?.close() } catch (ignored: IOException) { }
         }
     }
 
     private fun closeQuietly() {
-        try { closeStream() } catch (_: IOException) { }
+        try { closeStream() } catch (ignored: IOException) { }
     }
 
     private companion object {

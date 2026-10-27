@@ -126,6 +126,7 @@ fun SearchScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ResultsList(results: SearchUiState.Results, onOpenSession: (Long, Int) -> Unit) {
     LazyColumn(

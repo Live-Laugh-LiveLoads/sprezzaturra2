@@ -20,7 +20,7 @@ interface SessionDao {
     fun observe(id: Long): Flow<SessionEntity?>
 
     @Query("SELECT * FROM sessions ORDER BY createdAt DESC LIMIT :limit")
-    fun observeRecent(limit: Int = 100): Flow<List<SessionEntity>>
+    fun observeRecent(limit: Int): Flow<List<SessionEntity>>
 
     @Query("SELECT * FROM sessions ORDER BY createdAt DESC")
     suspend fun all(): List<SessionEntity>

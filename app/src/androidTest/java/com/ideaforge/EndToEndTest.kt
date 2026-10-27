@@ -84,7 +84,7 @@ class EndToEndTest {
     }
 
     @Test
-    fun recordMemoRunPipelineAndReachApproval() = runBlocking {
+    fun recordMemoRunPipelineAndReachApproval() = runBlocking<Unit> {
         val controller = recorder.get()
         val sessionId = controller.start(SessionMode.MEMO, consentAt = null)
 

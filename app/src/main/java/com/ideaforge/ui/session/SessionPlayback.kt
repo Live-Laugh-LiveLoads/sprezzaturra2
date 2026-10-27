@@ -129,12 +129,12 @@ internal class SessionPlayback(context: Context, private val scope: CoroutineSco
         }
         if (old.isNotEmpty() && next.size > old.size && next.subList(0, old.size) == old) {
             // A chunk was finalized while recording: append without disturbing playback.
-            player.addMediaItems(next.subList(old.size, next.size).map(::toMediaItem))
+            player.addMediaItems(next.subList(old.size, next.size).map { toMediaItem(it) })
             return
         }
         val position = if (old.isEmpty()) 0L else currentSessionMs(old)
         val resume = player.playWhenReady && old.isNotEmpty()
-        player.setMediaItems(next.map(::toMediaItem), false)
+        player.setMediaItems(next.map { toMediaItem(it) }, false)
         player.prepare()
         seekToSessionInternal(position)
         player.playWhenReady = resume
