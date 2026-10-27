@@ -251,8 +251,11 @@ private fun AgentCard(agent: AgentId, settings: AppSettings, vm: SettingsViewMod
             label = "Max output tokens (optional)",
             onValue = { v ->
                 val n = v.trim().toIntOrNull()
-                if (v.isBlank()) change { it.copy(maxTokens = null) }
-                else if (n != null && n > 0) change { it.copy(maxTokens = n) }
+                when {
+                    v.isBlank() -> change { it.copy(maxTokens = null) }
+                    n != null && n > 0 -> change { it.copy(maxTokens = n) }
+                    else -> Unit
+                }
             },
             keyboardType = KeyboardType.Number,
             supportingText = "Leave empty to let the model decide",
