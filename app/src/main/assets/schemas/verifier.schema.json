@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "required": ["segments", "changes", "flags"],
+  "properties": {
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "text"],
+        "properties": {
+          "id": {"type": "integer", "minimum": 0},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["segment_id", "original", "corrected", "reason"],
+        "properties": {
+          "segment_id": {"type": "integer", "minimum": 0},
+          "start_ms": {"type": "integer"},
+          "original": {"type": "string"},
+          "corrected": {"type": "string"},
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["start_ms", "end_ms", "text", "reason"],
+        "properties": {
+          "start_ms": {"type": "integer", "minimum": 0},
+          "end_ms": {"type": "integer", "minimum": 0},
+          "text": {"type": "string"},
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

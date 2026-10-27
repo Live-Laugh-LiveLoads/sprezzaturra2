@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "required": ["evaluations", "feedback"],
+  "properties": {
+    "evaluations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["idea_id", "scores", "pros", "cons", "overall", "rationale"],
+        "properties": {
+          "idea_id": {"type": "string", "minLength": 1},
+          "scores": {
+            "type": "object",
+            "required": ["impact", "feasibility", "effort", "cost", "risk", "time_to_first_result", "fit"],
+            "properties": {
+              "impact": {"type": "integer", "minimum": 1, "maximum": 10},
+              "feasibility": {"type": "integer", "minimum": 1, "maximum": 10},
+              "effort": {"type": "integer", "minimum": 1, "maximum": 10},
+              "cost": {"type": "integer", "minimum": 1, "maximum": 10},
+              "risk": {"type": "integer", "minimum": 1, "maximum": 10},
+              "time_to_first_result": {"type": "integer", "minimum": 1, "maximum": 10},
+              "fit": {"type": "integer", "minimum": 1, "maximum": 10}
+            }
+          },
+          "pros": {"type": "array", "items": {"type": "string"}},
+          "cons": {"type": "array", "items": {"type": "string"}},
+          "overall": {"type": "number", "minimum": 1, "maximum": 10},
+          "rationale": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "feedback": {
+      "type": "object",
+      "required": ["gaps", "weak_spots", "directions"],
+      "properties": {
+        "gaps": {"type": "array", "items": {"type": "string"}},
+        "weak_spots": {"type": "array", "items": {"type": "string"}},
+        "directions": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

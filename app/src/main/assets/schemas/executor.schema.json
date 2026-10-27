@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "required": ["deliverable_id", "title", "type", "filename", "content_markdown", "complete", "human_actions"],
+  "properties": {
+    "deliverable_id": {"type": "string"},
+    "title": {"type": "string", "minLength": 1},
+    "type": {"type": "string"},
+    "filename": {"type": "string", "minLength": 1},
+    "content_markdown": {"type": "string", "minLength": 1},
+    "complete": {"type": "boolean"},
+    "human_actions": {"type": "array", "items": {"type": "string"}}
+  }
+}

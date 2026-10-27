@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "required": ["core_ideas", "ideas"],
+  "properties": {
+    "core_ideas": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "summary"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "summary": {"type": "string"},
+          "timestamp_ms": {"type": ["integer", "null"]},
+          "kind": {"type": "string", "enum": ["idea", "problem", "goal"]}
+        }
+      }
+    },
+    "ideas": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "core_idea_id", "title", "description", "effort"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "core_idea_id": {"type": "string"},
+          "title": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "source_timestamp_ms": {"type": ["integer", "null"]},
+          "effort": {"type": "string", "enum": ["low", "medium", "high"]},
+          "style": {"type": "string", "enum": ["conventional", "unconventional"]}
+        }
+      }
+    }
+  }
+}
