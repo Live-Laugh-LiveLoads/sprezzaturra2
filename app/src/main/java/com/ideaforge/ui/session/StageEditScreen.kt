@@ -32,6 +32,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -56,7 +58,6 @@ import javax.inject.Inject
 data class StageEditUi(
     val loading: Boolean = true,
     val loadError: String? = null,
-    val text: String = "",
     val saving: Boolean = false,
     /** Validation problems from the last save attempt; non-empty means nothing was saved. */
     val problems: List<String> = emptyList(),
@@ -80,6 +81,10 @@ class StageEditViewModel @Inject constructor(
     private val _ui = MutableStateFlow(StageEditUi())
     val ui: StateFlow<StageEditUi> = _ui.asStateFlow()
 
+    /** Snapshot state, not a Flow: keystrokes in a large text field must apply synchronously. */
+    var text: String by mutableStateOf("")
+        private set
+
     init {
         viewModelScope.launch {
             val result = withContext(Dispatchers.Default) {
@@ -91,16 +96,20 @@ class StageEditViewModel @Inject constructor(
                     PrettyJson.encodeToString(JsonElement.serializer(), AppJson.parseToJsonElement(raw))
                 }
             }
+            result.getOrNull()?.let { text = it }
             _ui.update { s ->
                 result.fold(
-                    onSuccess = { s.copy(loading = false, text = it) },
+                    onSuccess = { s.copy(loading = false) },
                     onFailure = { s.copy(loading = false, loadError = it.message ?: "Could not load the output") },
                 )
             }
         }
     }
 
-    fun setText(text: String) = _ui.update { it.copy(text = text, problems = emptyList()) }
+    fun setText(value: String) {
+        text = value
+        if (_ui.value.problems.isNotEmpty()) _ui.update { it.copy(problems = emptyList()) }
+    }
 
     /** Validates and saves; on success re-queues the pipeline (downstream stages were cleared) and calls [onDone]. */
     fun save(onDone: () -> Unit) {
@@ -108,7 +117,7 @@ class StageEditViewModel @Inject constructor(
         _ui.update { it.copy(saving = true, problems = emptyList()) }
         viewModelScope.launch {
             try {
-                val problems = actions.editStageOutput(sessionId, stage, round, _ui.value.text)
+                val problems = actions.editStageOutput(sessionId, stage, round, text)
                 if (problems.isEmpty()) {
                     actions.runPipeline(sessionId)
                     _ui.update { it.copy(saving = false) }
@@ -161,7 +170,7 @@ fun StageEditScreen(onDone: () -> Unit, viewModel: StageEditViewModel = hiltView
                     }
                 }
                 OutlinedTextField(
-                    value = ui.text,
+                    value = viewModel.text,
                     onValueChange = viewModel::setText,
                     textStyle = TextStyle(fontFamily = FontFamily.Monospace, fontSize = MaterialTheme.typography.bodySmall.fontSize),
                     modifier = Modifier.weight(1f).fillMaxWidth(),
@@ -169,7 +178,7 @@ fun StageEditScreen(onDone: () -> Unit, viewModel: StageEditViewModel = hiltView
                 )
                 Button(
                     onClick = { viewModel.save(onDone) },
-                    enabled = !ui.saving && ui.text.isNotBlank(),
+                    enabled = !ui.saving && viewModel.text.isNotBlank(),
                     modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
                 ) { Text(if (ui.saving) "Saving..." else "Save and re-run later stages") }
             }

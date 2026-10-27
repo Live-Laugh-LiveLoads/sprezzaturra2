@@ -192,6 +192,9 @@ interface DeliverableDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(d: DeliverableEntity): Long
 
+    @Query("SELECT * FROM deliverables WHERE id = :id")
+    suspend fun get(id: Long): DeliverableEntity?
+
     @Query("SELECT * FROM deliverables WHERE planId = :planId ORDER BY id")
     suspend fun forPlan(planId: Long): List<DeliverableEntity>
 
