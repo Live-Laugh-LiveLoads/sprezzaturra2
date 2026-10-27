@@ -73,6 +73,9 @@ interface ChunkDao {
     @Query("UPDATE chunks SET transcriptJson = :json WHERE id = :id")
     suspend fun setTranscript(id: Long, json: String?)
 
+    @Query("DELETE FROM chunks WHERE id = :id")
+    suspend fun delete(id: Long)
+
     @Query("UPDATE chunks SET transcriptJson = NULL WHERE sessionId = :sessionId")
     suspend fun clearTranscripts(sessionId: Long)
 }

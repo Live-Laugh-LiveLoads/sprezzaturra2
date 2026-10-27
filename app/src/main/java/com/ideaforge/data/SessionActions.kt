@@ -76,8 +76,13 @@ class SessionActions @Inject constructor(
         if (!recording) db.sessions().setState(sessionId, PipelineState.QUEUED.name, "Queued")
     }
 
+    /**
+     * Continues a session waiting on the user: passes the review gate if verification is done,
+     * otherwise (auto-start was off) simply starts the pipeline.
+     */
     suspend fun continueAfterReview(sessionId: Long) {
-        orchestrator.approveReview(sessionId)
+        val verified = db.stages().forSession(sessionId).any { it.stage == Stage.VERIFY.name && it.status in setOf("DONE", "SKIPPED") }
+        if (verified) orchestrator.approveReview(sessionId)
         runPipeline(sessionId)
     }
 
