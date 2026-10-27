@@ -106,7 +106,7 @@ class StageEditViewModel @Inject constructor(
         }
     }
 
-    fun setText(value: String) {
+    fun onTextChange(value: String) {
         text = value
         if (_ui.value.problems.isNotEmpty()) _ui.update { it.copy(problems = emptyList()) }
     }
@@ -171,7 +171,7 @@ fun StageEditScreen(onDone: () -> Unit, viewModel: StageEditViewModel = hiltView
                 }
                 OutlinedTextField(
                     value = viewModel.text,
-                    onValueChange = viewModel::setText,
+                    onValueChange = viewModel::onTextChange,
                     textStyle = TextStyle(fontFamily = FontFamily.Monospace, fontSize = MaterialTheme.typography.bodySmall.fontSize),
                     modifier = Modifier.weight(1f).fillMaxWidth(),
                     label = { Text("JSON") },
